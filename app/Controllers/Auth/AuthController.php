@@ -132,20 +132,8 @@ class AuthController extends BaseController
           return $this->response->setJSON($res);
         } else {
           $verifyPass = password_verify($password, $user['password']);
-          if (!$verifyPass) {
-            $res = [
-              'token' => csrf_hash(),
-              'status' => 'error',
-              'message' => 'email or password incorrect!',
-            ];
-            return $this->response->setJSON($res);
-          } else {
-            session()->set('key', $user['email']);
-            session()->set('name', $user['name']);
-            session()->set('role', $user['role']);
-            $res = ['url' => site_url() . "dashboard/index"];
-            return $this->response->setJSON($res);
-          }
+          $verified = $this->authModel->checkPass($verifyPass, $user);
+          return $this->response->setJSON($verified);
         }
       }
     }
