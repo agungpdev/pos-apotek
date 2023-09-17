@@ -139,15 +139,15 @@
                     </div>
                     <form id="form-add-location">
                       <input type="hidden" class="txt_csrf txt_csrf_location" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>">
-                      <div class="">
-                        <label class="form-label required">Location</label>
+                      <div class="mb-3">
+                        <label class="form-label required">Lokasi</label>
                         <div>
-                          <input type="text" class="form-control" id="location" name="location" placeholder="Rak utama" autocomplete="off">
-                          <small class="form-hint">Location minimal 5 karakter</small>
+                          <input type="text" class="form-control required" id="location" name="location" placeholder="Rak utama" autocomplete="off">
+                          <div class="invalid-feedback error_location"></div>
                         </div>
                       </div>
                       <div class="text-end">
-                        <button type="submit" class="btn btn-primary">Tambah</button>
+                        <button type="submit" class="btn btn-primary btn-loc">Tambah</button>
                       </div>
                     </form>
                   </div>
@@ -629,7 +629,8 @@
         type: 'GET',
         dataType: 'json',
         success: function(response) {
-          if (response.status == 'success') {
+          console.log(response);
+          if (response.status) {
             var res = response.result;
             var row = '';
             for (var i = 0; i < res.length; i++) {
@@ -666,31 +667,44 @@
 
     $('#form-add-location').on('submit', function(e) {
       e.preventDefault()
-      var csrfName = $('.txt_csrf_location').attr('name');
-      var csrfHash = $('.txt_csrf_location').val()
-      var dataLoc = $('#location').val()
       $.ajax({
         url: '<?= site_url() ?>api/master/location/store',
         type: 'POST',
         dataType: 'json',
-        data: {
-          [csrfName]: csrfHash,
-          location: dataLoc
+        data: $(this).serialize(),
+        beforeSend: function() {
+          $('.btn-loc').prop('disabled', true);
+          $('.btn-loc').html('Process...');
+        },
+        complete: function() {
+          $('.btn-loc').prop('disabled', false);
+          $('.btn-loc').html('Tambah');
         },
         success: function(response) {
           console.log(response);
-          if (response.status == 'success') {
+          if (response.error) {
+            const data = response.error
+            if (data.error_location) {
+              $('.txt_csrf').val(response.token)
+              $('#location').addClass('is-invalid');
+              $('.error_location').html(data.error_location)
+            } else {
+              $('.txt_csrf').val(response.token)
+              $('#location').removeClass('is-invalid');
+            }
+          } else if (response.success) {
             $('.txt_csrf').val(response.token)
             loadDataLocation();
+            $('#location').removeClass('is-invalid');
             $('#form-add-location').trigger('reset');
             Toast.fire({
-              icon: response.status,
+              icon: response.success,
               title: response.message,
             });
           } else {
             $('.txt_csrf').val(response.token)
             Toast.fire({
-              icon: response.status,
+              icon: response.errors,
               title: response.message,
             });
           }
@@ -751,16 +765,18 @@
           var res = response.result
           if (response.status == 'success') {
             var form = `<form id="form-update-location">
-                        <input type="hidden" class="txt_csrf_units_update" name="<?= csrf_token() ?>" value="${response.token}">
+                        <input type="hidden" class="txt_csrf txt_csrf_units_update" name="<?= csrf_token() ?>" value="${response.token}">
+                        <input type="hidden" name="_method" value="PUT">
                         <div class="mb-3">
                           <label class="form-label required">Lokasi</label>
                           <div>
-                            <input type="hidden" class="form-control" id="field-location-update-id" name="location-update-id" value="${res.location_id}">
-                            <input type="text" class="form-control" id="field-location-update-name" name="location-update" value="${res.location_name}" autocomplete="off">
+                            <input type="hidden" class="form-control" name="id-up-loc" value="${res.location_id}">
+                            <input type="text" class="form-control" id="loc_up" name="location-update" value="${res.location_name}" autocomplete="off">
+                            <div class="invalid-feedback error_location_up"></div>
                           </div>
                         </div>
                         <div class="text-end">
-                          <button type="submit" class="btn btn-success">Update</button>
+                          <button type="submit" class="btn btn-success btn-loc-up">Update</button>
                           <button type="button" id="close-location-update" class="btn btn-warning">Close</button>
                         </div>
                       </form>`
@@ -775,34 +791,46 @@
     })
     $(document).on('submit', '#form-update-location', function(e) {
       e.preventDefault()
-      var csrfName = $('.txt_csrf_location').attr('name');
-      var csrfHash = $('.txt_csrf_location').val()
-      var dataID = $('#field-location-update-id').val()
-      var data = $('#field-location-update-name').val()
       $.ajax({
         url: '<?= site_url() ?>api/master/location/update',
         method: 'POST',
         dataType: 'json',
-        data: {
-          _method: 'put',
-          [csrfName]: csrfHash,
-          id: dataID,
-          location: data
+        data: $(this).serialize(),
+        beforeSend: function() {
+          $('.btn-loc-up').prop('disabled', true);
+          $('.btn-loc-up').html('Process...');
+        },
+        complete: function() {
+          $('.btn-loc-up').prop('disabled', false);
+          $('.btn-loc-up').html('Update');
         },
         success: function(response) {
           console.log(response);
-          if (response.status == 'success') {
-            $('.txt_csrf').val(response.token);
+
+          if (response.error) {
+            $('.txt_csrf').val(response.token)
+            const data = response.error
+            if (data.error_location_up) {
+              $('.txt_csrf').val(response.token)
+              $('#loc_up').addClass('is-invalid');
+              $('.error_location_up').html(data.error_location_up)
+            } else {
+              $('.txt_csrf').val(response.token)
+              $('#loc_up').removeClass('is-invalid');
+            }
+          } else if (response.success) {
+            $('.txt_csrf').val(response.token)
             loadDataLocation();
+            $('#loc_up').removeClass('is-invalid');
+            $('#form-update-location').remove();
             Toast.fire({
-              icon: response.status,
+              icon: response.success,
               title: response.message,
             });
-            $('#form-update-location').remove();
           } else {
-            $('.txt_csrf').val(response.token);
+            $('.txt_csrf').val(response.token)
             Toast.fire({
-              icon: response.status,
+              icon: response.error,
               title: response.message,
             });
           }

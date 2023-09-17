@@ -692,7 +692,6 @@
         dataType: 'json',
         data: $(this).serialize(),
         success: function(response) {
-          console.log(response);
           if (response.success) {
             $('.txt_csrf').val(response.token)
             loadDataSupplier();
