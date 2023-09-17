@@ -8,9 +8,11 @@ use App\Models\UnitsModel;
 class UnitsController extends BaseController
 {
     protected $unitModel;
+    protected $validation;
     public function __construct()
     {
         $this->unitModel = new UnitsModel();
+        $this->validation = \Config\Services::validation();
     }
     public function index()
     {
@@ -76,21 +78,41 @@ class UnitsController extends BaseController
             exit('404 Not Found');
         } else {
             $id = $this->request->getVar('id');
-            $data = ["unit_name" => $this->request->getVar('unit')];
-            if ($this->unitModel->update(["unit_id" => $id], $data)) {
+            $validate = $this->validate([
+                'unit' => [
+                    'rules' => 'required|min_length[3]',
+                    'label' => 'satuan',
+                    'errors' => [
+                        'required' => '{field} tidak boleh kosong',
+                        'min_length' => '{field} minimal 3 karakater'
+                    ]
+                ],
+            ]);
+            if (!$validate) {
                 $res = [
-                    'status' => 'success',
-                    'message' => 'Update data berhasil',
+                    'error' => [
+                        'error_units_up' => $this->validation->getError('unit'),
+                    ],
                     'token' => csrf_hash()
                 ];
                 return $this->response->setJSON($res);
             } else {
-                $res = [
-                    'status' => 'error',
-                    'message' => 'Something wrong',
-                    'token' => csrf_hash()
-                ];
-                return $this->response->setJSON($res);
+                $data = ["unit_name" => $this->request->getVar('unit')];
+                if ($this->unitModel->update(["unit_id" => $id], $data)) {
+                    $res = [
+                        'success' => 'success',
+                        'message' => 'Update data berhasil',
+                        'token' => csrf_hash()
+                    ];
+                    return $this->response->setJSON($res);
+                } else {
+                    $res = [
+                        'errors' => 'error',
+                        'message' => 'Something wrong',
+                        'token' => csrf_hash()
+                    ];
+                    return $this->response->setJSON($res);
+                }
             }
         }
     }
@@ -100,23 +122,43 @@ class UnitsController extends BaseController
         if (!$this->request->isAJAX()) {
             exit('404 Not Found');
         } else {
-            $data = [
-                'unit_name' => $this->request->getVar('unit')
-            ];
-            if ($this->unitModel->save($data)) {
+            $validate = $this->validate([
+                'unit' => [
+                    'rules' => 'required|min_length[3]',
+                    'label' => 'satuan',
+                    'errors' => [
+                        'required' => '{field} tidak boleh kosong',
+                        'min_length' => '{field} minimal 3 karakater'
+                    ]
+                ],
+            ]);
+            if (!$validate) {
                 $res = [
-                    'status' => 'success',
-                    'token' => csrf_hash(),
-                    'message' => 'Data berhasil ditambahkan'
+                    'error' => [
+                        'error_units' => $this->validation->getError('unit'),
+                    ],
+                    'token' => csrf_hash()
                 ];
                 return $this->response->setJSON($res);
             } else {
-                $res = [
-                    'status' => 'error',
-                    'token' => csrf_hash(),
-                    'message' => 'Data gagal ditambahkan'
+                $data = [
+                    'unit_name' => $this->request->getVar('unit')
                 ];
-                return $this->response->setJSON($res);
+                if ($this->unitModel->save($data)) {
+                    $res = [
+                        'success' => 'success',
+                        'token' => csrf_hash(),
+                        'message' => 'Data berhasil ditambahkan'
+                    ];
+                    return $this->response->setJSON($res);
+                } else {
+                    $res = [
+                        'errors' => 'error',
+                        'token' => csrf_hash(),
+                        'message' => 'Data gagal ditambahkan'
+                    ];
+                    return $this->response->setJSON($res);
+                }
             }
         }
     }

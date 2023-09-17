@@ -8,10 +8,12 @@ use App\Models\AuthModel;
 class AuthController extends BaseController
 {
   protected $authModel;
+  protected $validation;
 
   public function __construct()
   {
     $this->authModel = new AuthModel();
+    $this->validation = \Config\Services::validation();
   }
 
   public function index(): string
@@ -31,7 +33,6 @@ class AuthController extends BaseController
       throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
       exit();
     } else {
-      $validation = \Config\Services::validation();
       $validate = $this->validate([
         'name' => [
           'rules' => 'required|min_length[4]',
@@ -62,9 +63,9 @@ class AuthController extends BaseController
       if (!$validate) {
         $res = [
           'error' => [
-            'error_name' => $validation->getError('name'),
-            'error_email' => $validation->getError('email'),
-            'error_password' => $validation->getError('password'),
+            'error_name' => $this->validation->getError('name'),
+            'error_email' => $this->validation->getError('email'),
+            'error_password' => $this->validation->getError('password'),
           ],
           'token' => csrf_hash()
         ];
@@ -91,7 +92,6 @@ class AuthController extends BaseController
       throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
       exit();
     } else {
-      $validation = \Config\Services::validation();
       $validate = $this->validate([
         'email' => [
           'rules' => 'required|valid_email',
@@ -113,8 +113,8 @@ class AuthController extends BaseController
       if (!$validate) {
         $res = [
           'error' => [
-            'error_email' => $validation->getError('email'),
-            'error_password' => $validation->getError('password'),
+            'error_email' => $this->validation->getError('email'),
+            'error_password' => $this->validation->getError('password'),
           ],
           'token' => csrf_hash()
         ];

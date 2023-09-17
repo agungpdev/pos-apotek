@@ -61,15 +61,15 @@
                     </div>
                     <form id="form-add-category">
                       <input type="hidden" class="txt_csrf txt_csrf_category" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>">
-                      <div class="">
+                      <div class="mb-3">
                         <label class="form-label required">Category</label>
                         <div>
-                          <input type="text" class="form-control" id="category" name="category" placeholder="Obat bebas" autocomplete="off">
-                          <small class="form-hint">Category minimal 3 karakter</small>
+                          <input type="text" class="form-control required" id="category" name="category" placeholder="Obat bebas" autocomplete="off">
+                          <div class="invalid-feedback error_category"></div>
                         </div>
                       </div>
                       <div class="text-end">
-                        <button type="submit" class="btn btn-primary">Tambah</button>
+                        <button type="submit" class="btn btn-primary btn-save-cat">Tambah</button>
                       </div>
                     </form>
                   </div>
@@ -100,15 +100,15 @@
                     </div>
                     <form id="form-add-unit">
                       <input type="hidden" class="txt_csrf txt_csrf_units" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>">
-                      <div class="">
+                      <div class="mb-3">
                         <label class="form-label required">Satuan</label>
                         <div>
                           <input type="text" class="form-control" id="units" name="unit" placeholder="PCS" autocomplete="off">
-                          <small class="form-hint">Satuan minimal 3 karakter</small>
+                          <div class="invalid-feedback error_units"></div>
                         </div>
                       </div>
                       <div class="text-end">
-                        <button type="submit" class="btn btn-primary">Tambah</button>
+                        <button type="submit" class="btn btn-primary btn-unit">Tambah</button>
                       </div>
                     </form>
                   </div>
@@ -229,19 +229,31 @@
           [csrfName]: csrfHash,
           category: dataCat
         },
+        beforeSend: function() {
+          $('.btn-save-cat').prop('disabled', true);
+          $('.btn-save-cat').html('Process...');
+        },
+        complete: function() {
+          $('.btn-save-cat').prop('disabled', false);
+          $('.btn-save-cat').html('Tambah');
+        },
         success: function(response) {
           console.log(response);
           $('.txt_csrf').val(response.token)
-          if (response.status == 'success') {
+          if (response.error) {
+            const data = response.error
+            if (data.error_category) {
+              $('#category').addClass('is-invalid');
+              $('.error_category').html(data.error_category)
+            } else {
+              $('#category').removeClass('is-invalid');
+            }
+          } else {
             loadDataCategory();
+            $('#category').removeClass('is-invalid');
             $('#form-add-category').trigger('reset');
             Toast.fire({
-              icon: response.status,
-              title: response.message,
-            });
-          } else {
-            Toast.fire({
-              icon: response.status,
+              icon: response.success,
               title: response.message,
             });
           }
@@ -304,14 +316,15 @@
             var form = `<form id="form-update-category">
                         <input type="hidden" class="txt_csrf_category_update" name="<?= csrf_token() ?>" value="${response.token}">
                         <div class="mb-3">
-                          <label class="form-label required">Satuan</label>
+                          <label class="form-label required">Category</label>
                           <div>
                             <input type="hidden" id="field-update-id" class="form-control" name="category-update-id" value="${res.category_id}">
                             <input type="text" class="form-control" id="field-category-update" name="category-update" value="${res.category_name}" autocomplete="off">
+                            <div class="invalid-feedback error_category_up"></div>
                           </div>
                         </div>
                         <div class="text-end">
-                          <button type="submit" class="btn btn-success">Update</button>
+                          <button type="submit" class="btn btn-success btn-up-cat">Update</button>
                           <button type="button" id="close-category-update" class="btn btn-warning">Close</button>
                         </div>
                       </form>`
@@ -340,16 +353,40 @@
           id: dataID,
           category: category
         },
+        beforeSend: function() {
+          $('.btn-up-cat').prop('disabled', true);
+          $('.btn-up-cat').html('Process...');
+        },
+        complete: function() {
+          $('.btn-up-cat').prop('disabled', false);
+          $('.btn-up-cat').html('Update');
+        },
         success: function(response) {
           console.log(response);
-          $('.txt_csrf').val(response.token)
-          if (response.status == 'success') {
+          if (response.error) {
+            $('.txt_csrf').val(response.token)
+            const data = response.error
+            if (data.error_category_up) {
+              $('#field-category-update').addClass('is-invalid');
+              $('.error_category_up').html(data.error_category_up)
+            } else {
+              $('#field-category-update').removeClass('is-invalid');
+            }
+          } else if (response.success) {
+            $('.txt_csrf').val(response.token)
             loadDataCategory();
+            $('#field-category-update').removeClass('is-invalid');
+            $('#form-update-category').remove();
             Toast.fire({
-              icon: response.status,
+              icon: response.success,
               title: response.message,
             });
-            $('#form-update-category').remove();
+          } else {
+            $('.txt_csrf').val(response.token)
+            Toast.fire({
+              icon: response.error,
+              title: response.message,
+            });
           }
         }
       })
@@ -409,20 +446,39 @@
           [csrfName]: csrfHash,
           unit: dataUnits
         },
+        beforeSend: function() {
+          $('.btn-unit').prop('disabled', true);
+          $('.btn-unit').html('Process...');
+        },
+        complete: function() {
+          $('.btn-unit').prop('disabled', false);
+          $('.btn-unit').html('Tambah');
+        },
         success: function(response) {
           console.log(response);
-          if (response.status == 'success') {
+          if (response.error) {
+            const data = response.error
+            if (data.error_units) {
+              $('.txt_csrf').val(response.token)
+              $('#units').addClass('is-invalid');
+              $('.error_units').html(data.error_units)
+            } else {
+              $('.txt_csrf').val(response.token)
+              $('#units').removeClass('is-invalid');
+            }
+          } else if (response.success) {
             $('.txt_csrf').val(response.token)
             loadDataUnits();
+            $('#units').removeClass('is-invalid');
             $('#form-add-unit').trigger('reset');
             Toast.fire({
-              icon: response.status,
+              icon: response.success,
               title: response.message,
             });
           } else {
             $('.txt_csrf').val(response.token)
             Toast.fire({
-              icon: response.status,
+              icon: response.success,
               title: response.message,
             });
           }
@@ -485,16 +541,17 @@
           var res = response.result
           if (response.status == 'success') {
             var form = `<form id="form-update-unit">
-                        <input type="hidden" class="txt_csrf_units_update" name="<?= csrf_token() ?>" value="${response.token}">
+                        <input type="hidden" class="txt_csrf txt_csrf_units_update" name="<?= csrf_token() ?>" value="${response.token}">
                         <div class="mb-3">
                           <label class="form-label required">Satuan</label>
                           <div>
                             <input type="hidden" class="form-control" id="field-unit-update-id" name="unit-update-id" value="${res.unit_id}">
                             <input type="text" class="form-control" id="field-unit-update-name" name="unit-update" value="${res.unit_name}" autocomplete="off">
+                            <div class="invalid-feedback error_units_up"></div>
                           </div>
                         </div>
                         <div class="text-end">
-                          <button type="submit" class="btn btn-success">Update</button>
+                          <button type="submit" class="btn btn-success btn-unit-up">Update</button>
                           <button type="button" id="close-update-unit" class="btn btn-warning">Close</button>
                         </div>
                       </form>`
@@ -525,20 +582,40 @@
           id: dataID,
           unit: unit
         },
+        beforeSend: function() {
+          $('.btn-unit-up').prop('disabled', true);
+          $('.btn-unit-up').html('Process...');
+        },
+        complete: function() {
+          $('.btn-unit-up').prop('disabled', false);
+          $('.btn-unit-up').html('Update');
+        },
         success: function(response) {
           console.log(response);
-          if (response.status == 'success') {
+          if (response.error) {
+            $('.txt_csrf').val(response.token)
+            const data = response.error
+            if (data.error_units_up) {
+              $('.txt_csrf').val(response.token)
+              $('#field-unit-update-name').addClass('is-invalid');
+              $('.error_units_up').html(data.error_units_up)
+            } else {
+              $('.txt_csrf').val(response.token)
+              $('#field-unit-update-name').removeClass('is-invalid');
+            }
+          } else if (response.success) {
             $('.txt_csrf').val(response.token)
             loadDataUnits();
+            $('#field-unit-update-name').removeClass('is-invalid');
+            $('#form-update-unit').remove();
             Toast.fire({
-              icon: response.status,
+              icon: response.success,
               title: response.message,
             });
-            $('#form-update-unit').remove();
           } else {
             $('.txt_csrf').val(response.token)
             Toast.fire({
-              icon: response.status,
+              icon: response.error,
               title: response.message,
             });
           }
@@ -676,7 +753,7 @@
             var form = `<form id="form-update-location">
                         <input type="hidden" class="txt_csrf_units_update" name="<?= csrf_token() ?>" value="${response.token}">
                         <div class="mb-3">
-                          <label class="form-label required">Satuan</label>
+                          <label class="form-label required">Lokasi</label>
                           <div>
                             <input type="hidden" class="form-control" id="field-location-update-id" name="location-update-id" value="${res.location_id}">
                             <input type="text" class="form-control" id="field-location-update-name" name="location-update" value="${res.location_name}" autocomplete="off">

@@ -8,9 +8,11 @@ use App\Models\CustomersModel;
 class CustomerController extends BaseController
 {
     protected $customerModel;
+    protected $validation;
     public function __construct()
     {
         $this->customerModel = new CustomersModel();
+        $this->validation =  \Config\Services::validation();
     }
     public function index()
     {
@@ -29,7 +31,6 @@ class CustomerController extends BaseController
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
             exit();
         } else {
-            $validation = \Config\Services::validation();
             $validate = $this->validate([
                 'code_cust' => [
                     'rules' => 'required|min_length[4]',
@@ -59,9 +60,9 @@ class CustomerController extends BaseController
             if (!$validate) {
                 $res = [
                     'error' => [
-                        'error_name_cust' => $validation->getError('name_cust'),
-                        'error_code_cust' => $validation->getError('code_cust'),
-                        'error_kontak_cust' => $validation->getError('kontak_cust'),
+                        'error_name_cust' => $this->validation->getError('name_cust'),
+                        'error_code_cust' => $this->validation->getError('code_cust'),
+                        'error_kontak_cust' => $this->validation->getError('kontak_cust'),
                     ],
                     'token' => csrf_hash()
                 ];

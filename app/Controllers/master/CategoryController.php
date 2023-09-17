@@ -8,15 +8,18 @@ use App\Models\CategoriesModel;
 class CategoryController extends BaseController
 {
     protected $categoryModel;
+    protected $validation;
     public function __construct()
     {
         $this->categoryModel = new CategoriesModel();
+        $this->validation = \Config\Services::validation();
     }
 
     public function index()
     {
         if (!$this->request->isAJAX()) {
-            exit('404 Not Found');
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+            exit();
         } else {
             $data = $this->categoryModel->findAll();
             $res = ['status' => 'success', 'result' => $data];
@@ -27,25 +30,46 @@ class CategoryController extends BaseController
     public function store()
     {
         if (!$this->request->isAJAX()) {
-            exit('404 Not Found');
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+            exit();
         } else {
-            $data = [
-                'category_name' => $this->request->getVar('category')
-            ];
-            if ($this->categoryModel->save($data)) {
+            $validate = $this->validate([
+                'category' => [
+                    'rules' => 'required|min_length[3]',
+                    'label' => 'kategori',
+                    'errors' => [
+                        'required' => '{field} tidak boleh kosong',
+                        'min_length' => '{field} minimal 3 karakater'
+                    ]
+                ],
+            ]);
+            if (!$validate) {
                 $res = [
-                    'status' => 'success',
-                    'message' => 'Data berhasil disimpan',
+                    'error' => [
+                        'error_category' => $this->validation->getError('category'),
+                    ],
                     'token' => csrf_hash()
                 ];
                 return $this->response->setJSON($res);
             } else {
-                $res = [
-                    'status' => 'error',
-                    'message' => 'Data gagal disimpan',
-                    'token' => csrf_hash()
+                $data = [
+                    'category_name' => $this->request->getVar('category')
                 ];
-                return $this->response->setJSON($res);
+                if ($this->categoryModel->save($data)) {
+                    $res = [
+                        'success' => 'success',
+                        'message' => 'Data berhasil disimpan',
+                        'token' => csrf_hash()
+                    ];
+                    return $this->response->setJSON($res);
+                } else {
+                    $res = [
+                        'error' => 'error',
+                        'message' => 'Data gagal disimpan',
+                        'token' => csrf_hash()
+                    ];
+                    return $this->response->setJSON($res);
+                }
             }
         }
     }
@@ -53,7 +77,8 @@ class CategoryController extends BaseController
     public function edit()
     {
         if (!$this->request->isAJAX()) {
-            exit('404 Not Found');
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+            exit();
         } else {
             $id = $this->request->getVar('id');
             if ($this->categoryModel->findCategoryById($id)) {
@@ -104,23 +129,43 @@ class CategoryController extends BaseController
             exit('404 Not Found');
         } else {
             $id = $this->request->getVar('id');
-            $data = [
-                "category_name" => $this->request->getVar('category'),
-            ];
-            if ($this->categoryModel->update(["category_id" => $id], $data)) {
+            $validate = $this->validate([
+                'category-update' => [
+                    'rules' => 'required|min_length[3]',
+                    'label' => 'kategori',
+                    'errors' => [
+                        'required' => '{field} tidak boleh kosong',
+                        'min_length' => '{field} minimal 3 karakater'
+                    ]
+                ],
+            ]);
+            if (!$validate) {
                 $res = [
-                    'status' => 'success',
-                    'message' => 'Berhasil update data',
+                    'error' => [
+                        'error_category_up' => $this->validation->getError('category-update'),
+                    ],
                     'token' => csrf_hash()
                 ];
                 return $this->response->setJSON($res);
             } else {
-                $res = [
-                    'status' => 'error',
-                    'message' => 'Gagal update data',
-                    'token' => csrf_hash()
+                $data = [
+                    "category_name" => $this->request->getVar('category'),
                 ];
-                return $this->response->setJSON($res);
+                if ($this->categoryModel->update(["category_id" => $id], $data)) {
+                    $res = [
+                        'success' => 'success',
+                        'message' => 'Berhasil update data',
+                        'token' => csrf_hash()
+                    ];
+                    return $this->response->setJSON($res);
+                } else {
+                    $res = [
+                        'errors' => 'error',
+                        'message' => 'Gagal update data',
+                        'token' => csrf_hash()
+                    ];
+                    return $this->response->setJSON($res);
+                }
             }
         }
     }
