@@ -138,7 +138,7 @@
           <a href="./profile.html" class="dropdown-item">Profile</a>
           <!-- <div class="dropdown-divider"></div> -->
           <a href="./settings.html" class="dropdown-item">Settings</a>
-          <a href="<?= site_url() ?>auth/signout" class="dropdown-item">Logout</a>
+          <a href="<?= site_url() ?>dashboard/signout" class="dropdown-item">Logout</a>
         </div>
       </div>
     </div>

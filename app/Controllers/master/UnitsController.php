@@ -12,7 +12,7 @@ class UnitsController extends BaseController
     {
         $this->unitModel = new UnitsModel();
     }
-    public function ajax_get_unit()
+    public function index()
     {
         if ($this->request->isAJAX()) {
             $data = $this->unitModel->findAll();
@@ -22,7 +22,7 @@ class UnitsController extends BaseController
         }
     }
 
-    public function ajax_form_unit()
+    public function edit()
     {
         if (!$this->request->isAJAX()) {
             exit('404 Not Found');
@@ -46,7 +46,7 @@ class UnitsController extends BaseController
         }
     }
 
-    public function ajax_delete_unit()
+    public function destroy()
     {
         if (!$this->request->isAJAX()) {
             exit('404 Not Found');
@@ -70,7 +70,7 @@ class UnitsController extends BaseController
         }
     }
 
-    public function ajax_update_unit()
+    public function update()
     {
         if (!$this->request->isAJAX()) {
             exit('404 Not Found');
@@ -95,7 +95,7 @@ class UnitsController extends BaseController
         }
     }
 
-    public function ajax_store_unit()
+    public function store()
     {
         if (!$this->request->isAJAX()) {
             exit('404 Not Found');

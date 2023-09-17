@@ -13,7 +13,7 @@ class CategoryController extends BaseController
         $this->categoryModel = new CategoriesModel();
     }
 
-    public function ajax_get_category()
+    public function index()
     {
         if (!$this->request->isAJAX()) {
             exit('404 Not Found');
@@ -24,7 +24,7 @@ class CategoryController extends BaseController
         }
     }
 
-    public function ajax_store_category()
+    public function store()
     {
         if (!$this->request->isAJAX()) {
             exit('404 Not Found');
@@ -50,7 +50,7 @@ class CategoryController extends BaseController
         }
     }
 
-    public function ajax_form_category()
+    public function edit()
     {
         if (!$this->request->isAJAX()) {
             exit('404 Not Found');
@@ -74,7 +74,7 @@ class CategoryController extends BaseController
         }
     }
 
-    public function ajax_delete_category()
+    public function destroy()
     {
         if (!$this->request->isAJAX()) {
             exit('404 Not Found');
@@ -98,7 +98,7 @@ class CategoryController extends BaseController
         }
     }
 
-    public function ajax_update_category()
+    public function update()
     {
         if (!$this->request->isAJAX()) {
             exit('404 Not Found');

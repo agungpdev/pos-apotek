@@ -13,7 +13,7 @@ class LocationController extends BaseController
     {
         $this->locationModel = new LocationsModel();
     }
-    public function ajax_get_location()
+    public function index()
     {
         if ($this->request->isAJAX()) {
             $data = $this->locationModel->findAll();
@@ -23,7 +23,7 @@ class LocationController extends BaseController
         }
     }
 
-    public function ajax_store_location()
+    public function store()
     {
         if (!$this->request->isAJAX()) {
             exit('404 Not Found');
@@ -41,7 +41,7 @@ class LocationController extends BaseController
         }
     }
 
-    public function ajax_form_location()
+    public function edit()
     {
         if (!$this->request->isAJAX()) {
             exit('404 Not Found');
@@ -66,7 +66,7 @@ class LocationController extends BaseController
         }
     }
 
-    public function ajax_delete_location()
+    public function destroy()
     {
         if (!$this->request->isAJAX()) {
             exit('404 Not Found');
@@ -90,7 +90,7 @@ class LocationController extends BaseController
         }
     }
 
-    public function ajax_update_location()
+    public function update()
     {
         if (!$this->request->isAJAX()) {
             exit('404 Not Found');

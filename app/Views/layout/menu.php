@@ -37,30 +37,30 @@
             <div class="dropdown-menu">
               <div class="dropdown-menu-columns">
                 <div class="dropdown-menu-column">
-                  <a class="dropdown-item" href="<?= site_url() ?>dashboard/master/s/supplier">
+                  <a class="dropdown-item" href="<?= site_url() ?>dashboard/master/supplier">
                     Data Supplier
                   </a>
-                  <a class="dropdown-item" href="<?= site_url() ?>dashboard/master/c/satuan">
+                  <a class="dropdown-item" href="<?= site_url() ?>dashboard/master/satuan">
                     Data Satuan
                   </a>
-                  <a class="dropdown-item" href="<?= site_url() ?>dashboard/master/c/category">
+                  <a class="dropdown-item" href="<?= site_url() ?>dashboard/master/category">
                     Data Kategori
                   </a>
-                  <a class="dropdown-item" href="<?= site_url() ?>dashboard/master/c/location">
+                  <a class="dropdown-item" href="<?= site_url() ?>dashboard/master/location">
                     Data Lokasi
                   </a>
                   <a class="dropdown-item" href="<?= site_url() ?>dashboard/master/drug">
                     Data Obat
                   </a>
-                  <a class="dropdown-item" href="<?= site_url() ?>dashboard/master/s/customer">
+                  <a class="dropdown-item" href="<?= site_url() ?>dashboard/master/customer">
                     Data Pelanggan
                   </a>
                 </div>
                 <div class="dropdown-menu-column">
-                  <a class="dropdown-item" href="<?= site_url() ?>dashboard/master/d/dokter">
+                  <a class="dropdown-item" href="<?= site_url() ?>dashboard/master/dokter">
                     Data Dokter
                   </a>
-                  <a class="dropdown-item" href="<?= site_url() ?>dashboard/master/d/apoteker">
+                  <a class="dropdown-item" href="<?= site_url() ?>dashboard/master/apoteker">
                     Data Apoteker
                   </a>
                   <a class="dropdown-item" href="#">

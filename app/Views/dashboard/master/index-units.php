@@ -176,7 +176,7 @@
 
     function loadDataCategory() {
       $.ajax({
-        url: '<?= site_url() ?>master/categories/get-all',
+        url: '<?= site_url() ?>api/master/categories/get',
         type: 'GET',
         dataType: 'json',
         success: function(response) {
@@ -222,7 +222,7 @@
       var csrfHash = $('.txt_csrf_category').val()
       var dataCat = $('#category').val()
       $.ajax({
-        url: '<?= site_url() ?>master/categories/store',
+        url: '<?= site_url() ?>api/master/categories/store',
         type: 'POST',
         dataType: 'json',
         data: {
@@ -256,7 +256,7 @@
         var dataID = $(this).data('category');
         var element = this
         $.ajax({
-          url: '<?= site_url() ?>master/categories/delete',
+          url: '<?= site_url() ?>api/master/categories/delete',
           type: 'POST',
           dataType: 'json',
           data: {
@@ -266,10 +266,10 @@
           },
           success: function(response) {
             console.log(response);
-            $('.txt_csrf_category').val(response.token)
             if (response.status == 'success') {
               $(element).closest('tr').fadeOut();
               setTimeout(() => {
+                $('.txt_csrf').val(response.token)
                 loadDataCategory()
               }, 1500)
               Toast.fire({
@@ -290,7 +290,7 @@
       e.preventDefault();
       var catID = $(this).data('category');
       $.ajax({
-        url: '<?= site_url() ?>master/categories/edit',
+        url: '<?= site_url() ?>api/master/categories/edit',
         type: 'GET',
         dataType: 'json',
         data: {
@@ -331,7 +331,7 @@
       var dataID = $('#field-update-id').val()
       var category = $('#field-category-update').val()
       $.ajax({
-        url: '<?= site_url() ?>master/categories/update',
+        url: '<?= site_url() ?>api/master/categories/update',
         method: 'POST',
         dataType: 'json',
         data: {
@@ -357,7 +357,7 @@
 
     function loadDataUnits() {
       $.ajax({
-        url: '<?= site_url() ?>master/units/get-all',
+        url: '<?= site_url() ?>api/master/units/get',
         type: 'GET',
         dataType: 'json',
         success: function(response) {
@@ -402,7 +402,7 @@
       var csrfHash = $('.txt_csrf_units').val()
       var dataUnits = $('#units').val()
       $.ajax({
-        url: '<?= site_url() ?>master/units/store',
+        url: '<?= site_url() ?>api/master/units/store',
         type: 'POST',
         dataType: 'json',
         data: {
@@ -438,7 +438,7 @@
         var dataID = $(this).data('unit');
         var element = this
         $.ajax({
-          url: '<?= site_url() ?>master/units/delete',
+          url: '<?= site_url() ?>api/master/units/delete',
           type: 'POST',
           dataType: 'json',
           data: {
@@ -473,7 +473,7 @@
       e.preventDefault();
       var unitID = $(this).data('unit');
       $.ajax({
-        url: '<?= site_url() ?>master/units/edit',
+        url: '<?= site_url() ?>api/master/units/edit',
         type: 'GET',
         dataType: 'json',
         data: {
@@ -516,7 +516,7 @@
       var dataID = $('#field-unit-update-id').val()
       var unit = $('#field-unit-update-name').val()
       $.ajax({
-        url: '<?= site_url() ?>master/units/update',
+        url: '<?= site_url() ?>api/master/units/update',
         method: 'POST',
         dataType: 'json',
         data: {
@@ -548,7 +548,7 @@
 
     function loadDataLocation() {
       $.ajax({
-        url: '<?= site_url() ?>master/location/get-all',
+        url: '<?= site_url() ?>api/master/location/get',
         type: 'GET',
         dataType: 'json',
         success: function(response) {
@@ -593,7 +593,7 @@
       var csrfHash = $('.txt_csrf_location').val()
       var dataLoc = $('#location').val()
       $.ajax({
-        url: '<?= site_url() ?>master/location/store',
+        url: '<?= site_url() ?>api/master/location/store',
         type: 'POST',
         dataType: 'json',
         data: {
@@ -628,7 +628,7 @@
         var dataID = $(this).data('location');
         var element = this
         $.ajax({
-          url: '<?= site_url() ?>master/location/delete',
+          url: '<?= site_url() ?>api/master/location/delete',
           type: 'POST',
           dataType: 'json',
           data: {
@@ -663,7 +663,7 @@
       e.preventDefault();
       var locID = $(this).data('location');
       $.ajax({
-        url: '<?= site_url() ?>master/location/edit',
+        url: '<?= site_url() ?>api/master/location/edit',
         type: 'GET',
         dataType: 'json',
         data: {
@@ -703,7 +703,7 @@
       var dataID = $('#field-location-update-id').val()
       var data = $('#field-location-update-name').val()
       $.ajax({
-        url: '<?= site_url() ?>master/location/update',
+        url: '<?= site_url() ?>api/master/location/update',
         method: 'POST',
         dataType: 'json',
         data: {
