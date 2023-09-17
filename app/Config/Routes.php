@@ -9,6 +9,7 @@ use App\Controllers\Master\CategoryController as Category;
 use App\Controllers\Master\UnitsController as Units;
 use App\Controllers\Master\LocationController as Location;
 use App\Controllers\Master\SupplierController as Supplier;
+use App\Controllers\Master\CustomerController as Customer;
 
 /**
  * @var RouteCollection $routes
@@ -63,6 +64,13 @@ $routes->group('api', static function ($routes) {
       $routes->get('edit', [Supplier::class, 'edit']);
       $routes->put('update', [Supplier::class, 'update']);
       $routes->delete('delete', [Supplier::class, 'destroy']);
+    });
+    $routes->group('customers', static function ($routes) {
+      $routes->get('get', [Customer::class, 'index']);
+      $routes->post('store', [Customer::class, 'store']);
+      $routes->get('edit', [Customer::class, 'edit']);
+      $routes->put('update', [Customer::class, 'update']);
+      $routes->delete('delete', [Customer::class, 'destroy']);
     });
     $routes->group('drugs', static function ($routes) {
       $routes->post('store', [Obat::class, 'store']);

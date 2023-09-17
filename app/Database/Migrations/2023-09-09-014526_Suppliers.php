@@ -34,18 +34,18 @@ class Suppliers extends Migration
                 'type'       => 'VARCHAR',
                 'constraint' => '20',
                 'unique'     => true,
-                'null' => true,
+                'null'       => true,
             ],
             'account_name' => [
                 'type'       => 'VARCHAR',
                 'constraint' => '20',
-                'null' => true,
+                'null'       => true,
             ],
             'email' => [
                 'type'       => 'VARCHAR',
                 'constraint' => '100',
                 'unique'     => true,
-                'null' => true,
+                'null'       => true,
             ],
             'website' => [
                 'type'       => 'VARCHAR',
