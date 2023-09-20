@@ -44,6 +44,7 @@ class Filters extends BaseConfig
         ],
         'after' => [
             'toolbar',
+            // 'auth' => ['/', '/create-account']
             // 'honeypot',
             // 'secureheaders',
         ],
@@ -69,5 +70,7 @@ class Filters extends BaseConfig
      * Example:
      * 'isLoggedIn' => ['before' => ['account/*', 'profiles/*']]
      */
-    public array $filters = [];
+    public array $filters = [
+        'auth' => ['after' => ['/', '/create-account']]
+    ];
 }

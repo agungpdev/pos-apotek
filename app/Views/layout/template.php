@@ -39,7 +39,7 @@
       <?= $this->include('layout/footer') ?>
     </div>
   </div>
-  <?= $this->renderSection('modal') ?>
+  <?= $this->include('layout/modal') ?>
   <!-- Tabler Core -->
   <script src="<?= site_url('assets') ?>/js/tabler.min.js?1684106062" defer></script>
   <script src="<?= site_url('assets') ?>/js/demo.min.js?1684106062" defer></script>

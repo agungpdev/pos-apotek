@@ -36,6 +36,16 @@ class ObatController extends BaseController
         return view('dashboard/obat/v-obat', $data);
     }
 
+    public function getObat()
+    {
+        if (!$this->request->isAJAX()) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+            exit();
+        }
+        $data = $this->drugModel->findAll();
+        return $this->response->setJSON(['status' => 'success', 'result' => $data]);
+    }
+
     public function store()
     {
         if (!$this->request->isAJAX()) {

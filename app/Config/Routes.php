@@ -73,6 +73,7 @@ $routes->group('api', static function ($routes) {
       $routes->delete('delete', [Customer::class, 'destroy']);
     });
     $routes->group('drugs', static function ($routes) {
+      $routes->get('get', [Obat::class, 'getObat']);
       $routes->post('store', [Obat::class, 'store']);
     });
   });
