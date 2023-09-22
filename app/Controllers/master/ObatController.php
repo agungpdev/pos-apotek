@@ -7,6 +7,7 @@ use App\Models\CategoriesModel;
 use App\Models\DrugsModel;
 use App\Models\LocationsModel;
 use App\Models\UnitsModel;
+use CodeIgniter\CodeIgniter;
 
 class ObatController extends BaseController
 {
@@ -153,6 +154,169 @@ class ObatController extends BaseController
             } else {
                 $res = [
                     'status' => 'error',
+                    'message' => 'Something wrong!',
+                    'token' => csrf_hash()
+                ];
+                return $this->response->setJSON($res);
+            }
+        }
+    }
+
+    public function edit()
+    {
+        if (!$this->request->isAJAX()) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+            exit();
+        }
+
+        $id = $this->request->getVar('id');
+        if ($this->drugModel->findDrugById($id)) {
+            $res = [
+                'success' => 'success',
+                'token' => csrf_hash(),
+                'result' => $this->drugModel->findDrugById($id)
+            ];
+            return $this->response->setJSON($res);
+        } else {
+            $res = [
+                'error' => 'error',
+                'token' => csrf_hash(),
+                'result' => 'Something wrong!'
+            ];
+            return $this->response->setJSON($res);
+        }
+    }
+
+    public function update()
+    {
+        if (!$this->request->isAJAX()) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+            exit();
+        }
+        $validate = $this->validate([
+            'code_up' => [
+                'rules' => 'required',
+                'label' => 'code obat',
+                'errors' => [
+                    'required' => '{field} tidak boleh kosong',
+                ]
+            ],
+            'barcode_up' => [
+                'rules' => 'required',
+                'label' => 'barcode',
+                'errors' => [
+                    'required' => '{field} tidak boleh kosong',
+                ]
+            ],
+            'name_up' => [
+                'rules' => 'required|min_length[3]',
+                'label' => 'nama obat',
+                'errors' => [
+                    'required' => '{field} tidak boleh kosong',
+                    'min_length' => '{field} minimal 3 karakter'
+                ]
+            ],
+            'units_up' => [
+                'rules' => 'required',
+                'label' => 'unit / satuan',
+                'errors' => [
+                    'required' => '{field} tidak boleh kosong'
+                ]
+            ],
+            'category_up' => [
+                'rules' => 'required',
+                'label' => 'category',
+                'errors' => [
+                    'required' => '{field} tidak boleh kosong'
+                ]
+            ],
+            'location_up' => [
+                'rules' => 'required',
+                'label' => 'location',
+                'errors' => [
+                    'required' => '{field} tidak boleh kosong'
+                ]
+            ],
+            'stock-min_up' => [
+                'rules' => 'required',
+                'label' => 'minimal stock',
+                'errors' => [
+                    'required' => '{field} tidak boleh kosong'
+                ]
+            ],
+            'expired_up' => [
+                'rules' => 'required',
+                'label' => 'tgl expired',
+                'errors' => [
+                    'required' => '{field} tidak boleh kosong'
+                ]
+            ]
+        ]);
+        if (!$validate) {
+            $res = [
+                'error' => [
+                    'error_code_up' => $this->validation->getError('code_up'),
+                    'error_barcode_up' => $this->validation->getError('barcode_up'),
+                    'error_name_up' => $this->validation->getError('name_up'),
+                    'error_units_up' => $this->validation->getError('units_up'),
+                    'error_category_up' => $this->validation->getError('category_up'),
+                    'error_location_up' => $this->validation->getError('location_up'),
+                    'error_stock_min_up' => $this->validation->getError('stock-min_up'),
+                    'error_expired_up' => $this->validation->getError('expired_up'),
+                ],
+                'token' => csrf_hash()
+            ];
+            return $this->response->setJSON($res);
+        } else {
+
+            $id = $this->request->getVar('id');
+            $data = [
+                // 'code' => $this->request->getVar('code_up'),
+                // 'barcode' => $this->request->getVar('barcode_up'),
+                'name' => $this->request->getVar('name_up'),
+                'unit' => $this->request->getVar('units_up'),
+                'category' => $this->request->getVar('category_up'),
+                'location' => $this->request->getVar('location_up'),
+                'stock_minimum' => $this->request->getVar('stock-min_up'),
+                'expired' => $this->request->getVar('expired_up'),
+                'description' => $this->request->getVar('description_up'),
+            ];
+            // return $this->response->setJSON($data);
+            if ($this->drugModel->update(["drug_id" => $id], $data)) {
+                $res = [
+                    'success' => 'success',
+                    'message' => 'Berhasil update data',
+                    'token' => csrf_hash()
+                ];
+                return $this->response->setJSON($res);
+            } else {
+                $res = [
+                    'error' => 'error',
+                    'message' => 'Something wrong!',
+                    'token' => csrf_hash()
+                ];
+                return $this->response->setJSON($res);
+            }
+        }
+    }
+
+    public function destroy()
+    {
+        if (!$this->request->isAJAX()) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+            exit();
+        } else {
+            $code = $this->request->getVar('id');
+            if ($this->drugModel->where(["code" => $code])->delete()) {
+                $res = [
+                    'success' => 'success',
+                    'message' => 'Hapus data berhasil',
+                    'token' => csrf_hash()
+                ];
+                return $this->response->setJSON($res);
+            } else {
+                $res = [
+                    'error' => 'error',
                     'message' => 'Something wrong!',
                     'token' => csrf_hash()
                 ];

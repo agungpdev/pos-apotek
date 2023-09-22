@@ -10,4 +10,8 @@ class DrugsModel extends Model
     protected $primaryKey       = 'drug_id';
     protected $protectFields    = true;
     protected $allowedFields    = ['code', 'barcode', 'name', 'unit', 'category', 'location', 'stock_minimum', 'stock', 'expired', 'general_price', 'doctor_price', 'recipe_price', 'description'];
+    public function findDrugById($id)
+    {
+        return $this->where('code', $id)->first();
+    }
 }

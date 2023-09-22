@@ -74,7 +74,10 @@ $routes->group('api', static function ($routes) {
     });
     $routes->group('drugs', static function ($routes) {
       $routes->get('get', [Obat::class, 'getObat']);
+      $routes->get('edit', [Obat::class, 'edit']);
+      $routes->put('update', [Obat::class, 'update']);
       $routes->post('store', [Obat::class, 'store']);
+      $routes->delete('delete', [Obat::class, 'destroy']);
     });
   });
 });
