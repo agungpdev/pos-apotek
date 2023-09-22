@@ -501,7 +501,7 @@
           console.log(response);
           if (response.success) {
             $('.txt_csrf_drug').val(response.token);
-            $('#id').val(data.id);
+            $('#id').val(data.drug_id);
             $('#code_up').val(data.code);
             $('#code_upv').val(data.code);
             $('#barcode_up').val(data.barcode);

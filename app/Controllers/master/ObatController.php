@@ -282,7 +282,7 @@ class ObatController extends BaseController
                 'description' => $this->request->getVar('description_up'),
             ];
             // return $this->response->setJSON($data);
-            if ($this->drugModel->update(["drug_id" => $id], $data)) {
+            if ($this->drugModel->update(['drug_id' => $id], $data)) {
                 $res = [
                     'success' => 'success',
                     'message' => 'Berhasil update data',

@@ -11,4 +11,9 @@ class CustomersModel extends Model
     protected $useAutoIncrement = true;
     protected $protectFields    = true;
     protected $allowedFields    = ['customer_id', 'name', 'contact', 'address'];
+
+    public function findCustomerById($id)
+    {
+        return $this->where('id', $id)->first();
+    }
 }

@@ -238,7 +238,7 @@
             <div class="col-lg-6">
               <div class="mb-3">
                 <label class="form-label required">Customer ID</label>
-                <input type="hidden" class="form-control" id="id_cust" name="code_cust" value="C23090001">
+                <input type="hidden" class="form-control" id="code_cust" name="code_cust" value="C23090001">
                 <input type="text" class="form-control" id="id_cust_dis" value="C23090001" disabled>
                 <div class="invalid-feedback error_code_cust"></div>
               </div>
@@ -277,6 +277,61 @@
               <path d="M5 12l14 0"></path>
             </svg>
             Save
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="modal modal-blur fade" id="modal-customer-edit" tabindex="-1" style="display: none;" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Form Edit Customer</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form id="customer-update">
+        <input type="hidden" class="txt_csrf txt_csrf_customer" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>">
+        <input type="hidden" name="_method" value="PUT">
+        <input type="hidden" name="id_cust" id="id_cust">
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="mb-3">
+                <label class="form-label required">Customer ID</label>
+                <input type="hidden" class="form-control" id="code_ucust" name="code_ucust" value="C23090001">
+                <input type="text" class="form-control" id="code_ucust_dis" value="C23090001" disabled>
+                <div class="invalid-feedback error_code_ucust"></div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="mb-3">
+                <label class="form-label required">Name</label>
+                <input type="text" class="form-control" id="name_ucust" name="name_ucust">
+                <div class="invalid-feedback error_name_ucust"></div>
+              </div>
+            </div>
+            <div class="col-lg-3">
+              <div class="mb-3">
+                <label class="form-label">Kontak</label>
+                <input type="tel" class="form-control" id="kontak_ucust" min="0" name="kontak_ucust">
+                <div class="invalid-feedback error_kontak_ucust"></div>
+              </div>
+            </div>
+            <div class="col-lg-9">
+              <div class="mb-3">
+                <label class="form-label">Alamat</label>
+                <input type="text" class="form-control" id="address_ucust" name="address_ucust">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">
+            Cancel
+          </a>
+          <button type="submit" class="btn btn-success btn-update-cust ms-auto">
+            Update
           </button>
         </div>
       </form>
@@ -675,6 +730,7 @@
                 title: response.message,
               });
             } else {
+              $('.txt_csrf').val(response.token)
               Toast.fire({
                 icon: response.error,
                 title: response.message,
@@ -731,14 +787,14 @@
                         ${res[i].address}
                         </td>
                         <td>
-                          <a href="#" data-bs-toggle="modal" data-bs-target="#modal-edit-obat">
+                          <a href="#" id="edit-customer" data-bs-toggle="modal" data-bs-target="#modal-customer-edit" data-customer="${res[i].id}">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                               <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                               <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path>
                               <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"></path>
                               <path d="M16 5l3 3"></path>
                             </svg></a>
-                          <a href="#" class="text-red">
+                          <a href="#" class="text-red" id="btn-delete-customer" data-customer="${res[i].id}">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                               <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                               <path d="M4 7l16 0"></path>
@@ -796,7 +852,7 @@
             $('#form-customer').trigger('reset')
             $('#name_cust').removeClass('is-invalid is-valid is-valid-lite');
             $('#kontak_cust').removeClass('is-invalid is-valid is-valid-lite');
-            $('#id_cust').removeClass('is-invalid is-valid is-valid-lite');
+            $('#code_cust').removeClass('is-invalid is-valid is-valid-lite');
             Toast.fire({
               icon: response.success,
               title: response.message,
@@ -804,6 +860,119 @@
           }
         }
       })
+    })
+    $(document).on('click', '#edit-customer', function(e) {
+      e.preventDefault();
+      var ID = $(this).data('customer');
+      $.ajax({
+        url: '<?= site_url('api/master/customers/edit') ?>',
+        type: 'get',
+        dataType: 'json',
+        data: {
+          id: ID
+        },
+        success: function(response) {
+          var data = response.result;
+          console.log(response);
+          if (response.success) {
+            $('.txt_csrf_customer').val(response.token);
+            $('#id_cust').val(data.id);
+            $('#code_ucust').val(data.customer_id);
+            $('#code_ucust_dis').val(data.customer_id);
+            $('#name_ucust').val(data.name);
+            $('#kontak_ucust').val(data.contact);
+            $('#address_ucust').val(data.address);
+          }
+        }
+      })
+    })
+    $(document).on('submit', '#customer-update', function(e) {
+      e.preventDefault();
+      $.ajax({
+        url: '<?= site_url() ?>api/master/customers/update',
+        method: 'POST',
+        dataType: 'json',
+        data: $(this).serialize(),
+        beforeSend: function() {
+          $('.btn-update-cust').prop('disabled', true);
+          $('.btn-update-cust').html('Processing...');
+        },
+        complete: function() {
+          $('.btn-update-cust').prop('disabled', false);
+          $('.btn-update-cust').html('Update');
+        },
+        success: function(response) {
+          if (response.error) {
+            $('.txt_csrf').val(response.token);
+            let data = response.error
+            let fields = ["name_ucust", "code_ucust", "kontak_ucust"];
+            fields.forEach((field) => {
+              if (data['error_' + field]) {
+                $('#' + field).addClass('is-invalid');
+                $('.error_' + field).html(data['error_' + field])
+              } else {
+                $('#' + field).removeClass('is-invalid');
+                $('#' + field).addClass('is-valid is-valid-lite');
+              }
+            })
+          } else if (response.success) {
+            $('.txt_csrf').val(response.token)
+            loadDataCustomer()
+            $('#name_ucust').removeClass('is-invalid is-valid is-valid-lite');
+            $('#kontak_ucust').removeClass('is-invalid is-valid is-valid-lite');
+            $('#code_ucust').removeClass('is-invalid is-valid is-valid-lite');
+            Toast.fire({
+              icon: response.success,
+              title: response.message,
+            });
+          } else {
+            $('.txt_csrf').val(response.token)
+            Toast.fire({
+              icon: response.error,
+              title: response.message,
+            });
+          }
+        }
+      })
+    })
+    $(document).on('click', '#btn-delete-customer', function(e) {
+      e.preventDefault()
+      if (confirm('Apakah anda yakin menghapus Customer ini?')) {
+        var csrfName = $('.txt_csrf_customer').attr('name');
+        var csrfHash = $('.txt_csrf_customer').val()
+        var dataID = $(this).data('customer');
+        var element = this
+        $.ajax({
+          url: '<?= site_url() ?>api/master/customers/delete',
+          type: 'POST',
+          dataType: 'json',
+          data: {
+            _method: 'delete',
+            [csrfName]: csrfHash,
+            id: dataID
+          },
+          success: function(response) {
+            console.log(response);
+            if (response.success) {
+              $(element).closest('tr').fadeOut();
+              setTimeout(() => {
+                $('.txt_csrf').val(response.token)
+                loadDataCustomer()
+              }, 1500)
+              Toast.fire({
+                icon: response.success,
+                title: response.message,
+              });
+            } else {
+              $('.txt_csrf').val(response.token)
+              Toast.fire({
+                icon: response.error,
+                title: response.message,
+              });
+            }
+          }
+        })
+      }
     })
   })
 </script>

@@ -83,4 +83,120 @@ class CustomerController extends BaseController
             return $this->response->setJSON($res);
         }
     }
+    public function edit()
+    {
+        if (!$this->request->isAJAX()) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+            exit();
+        }
+
+        $id = $this->request->getVar('id');
+        if ($this->customerModel->findCustomerById($id)) {
+            $res = [
+                'success' => 'success',
+                'token' => csrf_hash(),
+                'result' => $this->customerModel->findCustomerById($id)
+            ];
+            return $this->response->setJSON($res);
+        } else {
+            $res = [
+                'error' => 'error',
+                'token' => csrf_hash(),
+                'result' => 'Something wrong!'
+            ];
+            return $this->response->setJSON($res);
+        }
+    }
+    public function update()
+    {
+        if (!$this->request->isAJAX()) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+            exit();
+        }
+
+        $id = $this->request->getVar('id');
+        $validate = $this->validate([
+            'code_ucust' => [
+                'rules' => 'required|min_length[4]',
+                'label' => 'Code customer',
+                'errors' => [
+                    'required' => '{field} tidak boleh kosong',
+                    'min_length' => '{field} minimal 4 karakater'
+                ]
+            ],
+            'name_ucust' => [
+                'rules' => 'required|min_length[4]',
+                'label' => 'Nama customer',
+                'errors' => [
+                    'required' => '{field} tidak boleh kosong',
+                    'min_length' => '{field} minimal 4 karakater'
+                ]
+            ],
+            'kontak_ucust' => [
+                'rules' => 'max_length[14]',
+                'label' => 'Kontak customer',
+                'errors' => [
+                    'max_length' => '{field} maximal 14 karakater'
+                ]
+            ],
+        ]);
+        if (!$validate) {
+            $res = [
+
+                'error' => [
+                    'error_name_ucust' => $this->validation->getError('name_ucust'),
+                    'error_code_ucust' => $this->validation->getError('code_ucust'),
+                    'error_kontak_ucust' => $this->validation->getError('kontak_ucust'),
+                ],
+                'token' => csrf_hash()
+            ];
+            return $this->response->setJSON($res);
+        } else {
+            $id = $this->request->getVar('id_cust');
+            $data = [
+                'name' => $this->request->getVar('name_ucust'),
+                'contact' => $this->request->getVar('kontak_ucust'),
+                'address' => $this->request->getVar('address_ucust'),
+            ];
+            if ($this->customerModel->update(["id" => $id], $data)) {
+                $res = [
+                    'success' => 'success',
+                    'message' => 'Berhasil update data',
+                    'token' => csrf_hash()
+                ];
+                return $this->response->setJSON($res);
+            } else {
+                $res = [
+                    'errors' => 'error',
+                    'message' => 'Gagal update data',
+                    'token' => csrf_hash()
+                ];
+                return $this->response->setJSON($res);
+            }
+        }
+    }
+
+    public function destroy()
+    {
+        if (!$this->request->isAJAX()) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+            exit();
+        }
+        $id = $this->request->getVar('id');
+        if ($this->customerModel->where(["id" => $id])->delete()) {
+            $res = [
+                'success' => 'success',
+                'message' => 'Hapus data berhasil',
+                'token' => csrf_hash()
+            ];
+            return $this->response->setJSON($res);
+        } else {
+            $res = [
+                'error' => 'error',
+                'message' => 'Hapus data berhasil',
+                'token' => csrf_hash()
+            ];
+            return $this->response->setJSON($res);
+        }
+    }
 }
