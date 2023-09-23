@@ -238,8 +238,8 @@
             <div class="col-lg-6">
               <div class="mb-3">
                 <label class="form-label required">Customer ID</label>
-                <input type="hidden" class="form-control" id="code_cust" name="code_cust" value="C23090001">
-                <input type="text" class="form-control" id="id_cust_dis" value="C23090001" disabled>
+                <input type="hidden" class="form-control" id="code_cust" name="code_cust">
+                <input type="text" class="form-control" id="id_cust_dis" disabled>
                 <div class="invalid-feedback error_code_cust"></div>
               </div>
             </div>
@@ -774,6 +774,8 @@
         success: function(response) {
           console.log(response);
           if (response.success) {
+            $('#code_cust').val(response.code);
+            $('#id_cust_dis').val(response.code);
             var res = response.result;
             var row = '';
             for (var i = 0; i < res.length; i++) {
@@ -848,7 +850,7 @@
             })
           } else {
             $('.txt_csrf').val(response.token);
-            loadDataCustomer()
+            loadDataCustomer();
             $('#form-customer').trigger('reset')
             $('#name_cust').removeClass('is-invalid is-valid is-valid-lite');
             $('#kontak_cust').removeClass('is-invalid is-valid is-valid-lite');

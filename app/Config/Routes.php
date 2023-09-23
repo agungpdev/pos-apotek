@@ -71,6 +71,7 @@ $routes->group('api', static function ($routes) {
       $routes->get('edit', [Customer::class, 'edit']);
       $routes->put('update', [Customer::class, 'update']);
       $routes->delete('delete', [Customer::class, 'destroy']);
+      $routes->get('code', [Customer::class, 'code']);
     });
     $routes->group('drugs', static function ($routes) {
       $routes->get('get', [Obat::class, 'getObat']);

@@ -21,7 +21,7 @@ class CustomerController extends BaseController
             exit();
         }
 
-        $data = ['success' => 'success', 'result' => $this->customerModel->findAll()];
+        $data = ['success' => 'success', 'code' => $this->customerModel->customerId(), 'result' => $this->customerModel->findAll()];
         return $this->response->setJSON($data);
     }
 

@@ -16,4 +16,18 @@ class CustomersModel extends Model
     {
         return $this->where('id', $id)->first();
     }
+    public function customerId()
+    {
+        $sql = "SELECT MAX(MID(customer_id,9,4)) AS customer_no FROM customer WHERE MID(customer_id,3,6) = DATE_FORMAT(CURDATE(), '%y%m%d')";
+        $query = $this->db->query($sql);
+        if ($query->getNumRows() > 0) {
+            $row = $query->getRow();
+            $n = ((int)$row->customer_no) + 1;
+            $no = sprintf("%'.04d", $n);
+        } else {
+            $no = "0001";
+        }
+        $customer_no = "CS" . date('ymd') . $no;
+        return $customer_no;
+    }
 }
