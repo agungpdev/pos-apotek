@@ -69,7 +69,7 @@
                   <a class="dropdown-item" href="#">
                     Import Pelanggan
                   </a>
-                  <a class="dropdown-item" href="#">
+                  <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modal-import-obat">
                     Import Obat
                   </a>
                 </div>

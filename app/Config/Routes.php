@@ -31,6 +31,9 @@ $routes->group('dashboard', static function ($routes) {
     $routes->get('drug', [Obat::class, 'index']);
     $routes->get('(:alpha)', [Master::class, 'index/$1']);
   });
+  $routes->group('import', static function ($routes) {
+    $routes->post('obat', [Dashboard::class, 'import_obat']);
+  });
 });
 
 

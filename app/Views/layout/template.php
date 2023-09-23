@@ -43,6 +43,14 @@
   <!-- Tabler Core -->
   <script src="<?= site_url('assets') ?>/js/tabler.min.js?1684106062" defer></script>
   <script src="<?= site_url('assets') ?>/js/demo.min.js?1684106062" defer></script>
+  <script>
+    $(document).ready(function() {
+      $(document).on('submit', '#import-obat', function(e) {
+        e.preventDefault();
+        $.ajax({})
+      })
+    })
+  </script>
 </body>
 
 </html>
