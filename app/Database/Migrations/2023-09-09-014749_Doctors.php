@@ -36,6 +36,6 @@ class Doctors extends Migration
 
     public function down()
     {
-        //
+        $this->forge->dropTable('doctor');
     }
 }

@@ -11,6 +11,7 @@ use App\Controllers\Master\LocationController as Location;
 use App\Controllers\Master\SupplierController as Supplier;
 use App\Controllers\Master\CustomerController as Customer;
 use App\Controllers\Master\DokterController as Doctor;
+use App\Controllers\Master\ApotekerController as Apoteker;
 
 /**
  * @var RouteCollection $routes
@@ -88,6 +89,14 @@ $routes->group('api', static function ($routes) {
       $routes->put('update', [Doctor::class, 'update']);
       $routes->post('store', [Doctor::class, 'store']);
       $routes->delete('delete', [Doctor::class, 'destroy']);
+    });
+    $routes->group('apoteker', static function ($routes) {
+      $routes->get('get', [Apoteker::class, 'index']);
+      $routes->get('edit', [Apoteker::class, 'edit']);
+      $routes->get('canceled', [Apoteker::class, 'cancel_update']);
+      $routes->put('update', [Apoteker::class, 'update']);
+      $routes->post('store', [Apoteker::class, 'store']);
+      $routes->delete('delete', [Apoteker::class, 'destroy']);
     });
   });
 });
