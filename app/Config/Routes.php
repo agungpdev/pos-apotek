@@ -33,6 +33,8 @@ $routes->group('dashboard', static function ($routes) {
   });
   $routes->group('import', static function ($routes) {
     $routes->post('obat', [Dashboard::class, 'import_obat']);
+    $routes->post('supplier', [Dashboard::class, 'import_supplier']);
+    $routes->post('customer', [Dashboard::class, 'import_customer']);
   });
 });
 

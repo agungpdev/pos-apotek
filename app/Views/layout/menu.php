@@ -63,10 +63,10 @@
                   <a class="dropdown-item" href="<?= site_url() ?>dashboard/master/apoteker">
                     Data Apoteker
                   </a>
-                  <a class="dropdown-item" href="#">
+                  <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modal-import-supplier">
                     Import Supplier
                   </a>
-                  <a class="dropdown-item" href="#">
+                  <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modal-import-customer">
                     Import Pelanggan
                   </a>
                   <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modal-import-obat">

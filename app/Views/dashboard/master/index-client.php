@@ -579,10 +579,10 @@
                       <td><span class="text-muted">${i+1}</span></td>
                       <td><a href="#" class="text-reset" tabindex="-1">${res[i].name}</a></td>
                       <td>
-                        ${res[i].address}
+                        ${res[i].address ? res[i].address :'-'}
                       </td>
                       <td>
-                      ${res[i].city}
+                      ${res[i].city ? res[i].city :'-'}
                       </td>
                       <td>
                       ${res[i].num_hp}
@@ -590,7 +590,7 @@
                       <td>
                       <a href="mailto:${res[i].email}" target="_blank">${res[i].email}</a>
                       </td>
-                      <td><a href="https://${res[i].website}" target="_blank">${res[i].website}</a></td>
+                      <td><a href="https://${res[i].website ? res[i].website : ''}" target="_blank">${res[i].website ? res[i].website : ''}</a></td>
                       <td>
                         <a href="#" id="btn-edit-supplier" data-bs-toggle="modal" data-supplier="${res[i].id}" data-bs-target="#modal-edit-supplier">
                           <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
