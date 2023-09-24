@@ -90,22 +90,19 @@
               </span>
             </a>
             <div class="dropdown-menu">
-              <a class="dropdown-item" href="https://tabler.io/docs" rel="noopener">
+              <a class="dropdown-item" href="#" rel="noopener">
                 Pembelian Obat
               </a>
-              <a class="dropdown-item" href="https://tabler.io/docs" rel="noopener">
+              <a class="dropdown-item" href="#" rel="noopener">
                 Retur Pembelian Obat
               </a>
-              <a class="dropdown-item" href="https://tabler.io/docs" rel="noopener">
+              <a class="dropdown-item" href="#" rel="noopener">
                 Setting Pajak Penjualan
               </a>
-              <a class="dropdown-item" href="https://tabler.io/docs" rel="noopener">
-                Setting Pajak Penjualan
-              </a>
-              <a class="dropdown-item" href="https://tabler.io/docs" rel="noopener">
+              <a class="dropdown-item" href="#" rel="noopener">
                 Penjualan Obat
               </a>
-              <a class="dropdown-item" href="https://tabler.io/docs" rel="noopener">
+              <a class="dropdown-item" href="#" rel="noopener">
                 Retur Penjualan Obat
               </a>
             </div>

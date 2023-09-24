@@ -4,7 +4,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <h1 class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
-      <a href="<?= site_url() ?>">
+      <a href="<?= site_url('dashboard/index') ?>">
         <img src="<?= site_url('assets') ?>/img/brand.svg" width="110" height="32" alt="Apotech" class="navbar-brand-image">
       </a>
     </h1>
