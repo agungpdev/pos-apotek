@@ -37,7 +37,7 @@ class AuthController extends BaseController
     $validate = $this->validate([
       'name' => [
         'rules' => 'required|min_length[4]',
-        'label' => 'nama',
+        'label' => 'Nama',
         'errors' => [
           'required' => '{field} tidak boleh kosong',
           'min_length' => '{field} minimal 4 karakater'
@@ -45,7 +45,7 @@ class AuthController extends BaseController
       ],
       'email' => [
         'rules' => 'required|valid_email|is_unique[user.email]',
-        'label' => 'email',
+        'label' => 'Email',
         'errors' => [
           'required' => '{field} tidak boleh kosong',
           'is_unique' => '{field} sudah terdaftar',
@@ -53,11 +53,11 @@ class AuthController extends BaseController
         ]
       ],
       'password' => [
-        'rules' => 'required|min_length[8]',
-        'label' => 'password',
+        'rules' => 'required|regex_match[/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\d\s:])([^\s]){8,16}$/]',
+        'label' => 'Password',
         'errors' => [
           'required' => '{field} tidak boleh kosong',
-          'min_length' => '{field} minimal 8 karakter'
+          'regex_match' => '{field} harus terdiri 8-16 karakter berisi huruf besar, kecil, angka, dan spesial karakter'
         ]
       ]
     ]);
