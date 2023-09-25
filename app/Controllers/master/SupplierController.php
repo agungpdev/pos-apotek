@@ -23,6 +23,9 @@ class SupplierController extends BaseController
             exit();
         } else {
             $data = $this->supplierModel->findAll();
+            if (!$data) {
+                return $this->response->setJSON(['error' => 'error']);
+            }
             $res = ['status' => 'success', 'result' => $data];
             return $this->response->setJSON($res);
         }

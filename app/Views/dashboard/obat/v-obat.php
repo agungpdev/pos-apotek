@@ -360,7 +360,7 @@
         dataType: 'json',
         success: function(response) {
           console.log(response);
-          if (response.status == 'success') {
+          if (response.success) {
             var res = response.result;
             var row = '';
             for (var i = 0; i < res.length; i++) {
@@ -394,7 +394,7 @@
             }
             $('#body-obat').html(row)
           } else {
-            var row = `<tr><td colspan='3'>Data no found</td></tr>`;
+            var row = `<tr><td colspan='8' class='text-center'>Data no found</td></tr>`;
             $('#body-obat').html(row)
           }
         }

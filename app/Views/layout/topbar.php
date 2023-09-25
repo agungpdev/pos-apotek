@@ -135,9 +135,9 @@
           </div>
         </a>
         <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-          <a href="./profile.html" class="dropdown-item">Profile</a>
+          <a href="#" class="dropdown-item">Profile</a>
           <!-- <div class="dropdown-divider"></div> -->
-          <a href="./settings.html" class="dropdown-item">Settings</a>
+          <a href="#" class="dropdown-item">Settings</a>
           <a href="#" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal-logout">Logout</a>
         </div>
       </div>

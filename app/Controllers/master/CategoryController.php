@@ -22,7 +22,10 @@ class CategoryController extends BaseController
             exit();
         }
         $data = $this->categoryModel->findAll();
-        $res = ['status' => 'success', 'result' => $data];
+        if (!$data) {
+            return $this->response->setJSON(['error' => 'error']);
+        }
+        $res = ['success' => 'success', 'result' => $data];
         return $this->response->setJSON($res);
     }
 

@@ -16,11 +16,15 @@ class UnitsController extends BaseController
     }
     public function index()
     {
-        if ($this->request->isAJAX()) {
-            $data = $this->unitModel->findAll();
-            echo json_encode(['status' => 'success', 'result' => $data]);
+        if (!$this->request->isAJAX()) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+            exit();
         } else {
-            exit('404 Not Found');
+            $data = $this->unitModel->findAll();
+            if (!$data) {
+                return $this->response->setJSON(['error' => 'error']);
+            }
+            return $this->response->setJSON(['success' => 'success', 'result' => $data]);
         }
     }
 

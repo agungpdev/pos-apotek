@@ -20,8 +20,10 @@ class CustomerController extends BaseController
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
             exit();
         }
-
         $data = ['success' => 'success', 'code' => $this->customerModel->customerId(), 'result' => $this->customerModel->findAll()];
+        if (!$this->customerModel->findAll()) {
+            return $this->response->setJSON(['error' => 'error']);
+        }
         return $this->response->setJSON($data);
     }
 

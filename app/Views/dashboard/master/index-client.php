@@ -614,7 +614,7 @@
             }
             $('#data-supplier').html(row)
           } else {
-            var row = `<tr><td colspan='3'>Data no found</td></tr>`;
+            var row = `<tr><td colspan='8' class="text-center">Data no found</td></tr>`;
             $('#data-supplier').html(row)
           }
         }
@@ -811,7 +811,7 @@
             }
             $('#data-customer').html(row)
           } else {
-            var row = `<tr><td colspan='3'>Data no found</td></tr>`;
+            var row = `<tr><td colspan='5' class="text-center">Data no found</td></tr>`;
             $('#data-customer').html(row)
           }
         }

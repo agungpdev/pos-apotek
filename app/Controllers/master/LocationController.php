@@ -21,7 +21,10 @@ class LocationController extends BaseController
             exit();
         }
         $data = $this->locationModel->findAll();
-        return $this->response->setJSON(['status' => 'success', 'result' => $data]);
+        if (!$data) {
+            return $this->response->setJSON(['error' => 'error']);
+        }
+        return $this->response->setJSON(['success' => 'success', 'result' => $data]);
     }
 
     public function store()

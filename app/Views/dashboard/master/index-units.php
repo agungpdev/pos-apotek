@@ -181,7 +181,7 @@
         dataType: 'json',
         success: function(response) {
           console.log(response);
-          if (response.status == 'success') {
+          if (response.success) {
             var res = response.result;
             var row = '';
             for (var i = 0; i < res.length; i++) {
@@ -208,7 +208,7 @@
             }
             $('#body-category').html(row)
           } else {
-            var row = `<tr><td colspan='3'>Data no found</td></tr>`;
+            var row = `<tr><td colspan='3' class="text-center" >Data no found</td></tr>`;
             $('#body-category').html(row)
           }
         }
@@ -398,7 +398,7 @@
         type: 'GET',
         dataType: 'json',
         success: function(response) {
-          if (response.status == 'success') {
+          if (response.success) {
             var res = response.result;
             var row = '';
             for (var i = 0; i < res.length; i++) {
@@ -425,7 +425,7 @@
             }
             $('#body-satuan').html(row)
           } else {
-            var row = `<tr><td colspan='3'>Data no found</td></tr>`;
+            var row = `<tr><td colspan='3' class="text-center">Data no found</td></tr>`;
             $('#body-satuan').html(row)
           }
         }
@@ -630,7 +630,7 @@
         dataType: 'json',
         success: function(response) {
           console.log(response);
-          if (response.status) {
+          if (response.success) {
             var res = response.result;
             var row = '';
             for (var i = 0; i < res.length; i++) {
@@ -657,7 +657,7 @@
             }
             $('#body-location').html(row)
           } else {
-            var row = `<tr><td colspan='3'>Data no found</td></tr>`;
+            var row = `<tr><td colspan='3' class="text-center">Data no found</td></tr>`;
             $('#body-location').html(row)
           }
         }
