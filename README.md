@@ -1,11 +1,11 @@
 # Apotech Store
-![POS-APP login](https://github.com/agungpdev/pos-apotek/assets/50897936/3ea7bc9d-b471-40b2-9f96-a430ff0fe109)
+![POS-APP login](https://github.com/agungpdev/pos-apotek/assets/50897936/d561c8e5-749d-4b11-a3cc-9246899115a3)
 
 
 <h2>Apotech Store</h2>
 Apotech store ini merupakan aplikasi POS khusus untuk apotek yang nantinya dapat mengandle data obat, apoteker, customer, transaksi pembelian dan penjualan, laporan keuangan,laporan jurnal, fitur kasir, dll layaknya aplikasi POS tetapi dengan fitur yang lebih kompleks. project ini saat ini masih dalam tahap pengembangan dan masih dalam versi 1.0.0 dev.
 
-![Apotech-Master](https://github.com/agungpdev/pos-apotek/assets/50897936/b4e61659-5a41-4a16-931d-2d704253cbae)
+![Apotech-Master](https://github.com/agungpdev/pos-apotek/assets/50897936/fe4940c1-7dae-4eae-8e41-3d60f6b8b2bc)
 <h4>Tools</h4>
 
 tool atau alat yang digunakan untuk membangun aplikasi ini adalah:
@@ -17,7 +17,7 @@ tool atau alat yang digunakan untuk membangun aplikasi ini adalah:
 - Phpspreadsheet
 - MySQL
 
-![Apotech-Master import](https://github.com/agungpdev/pos-apotek/assets/50897936/bb4f7e76-6a4a-461e-a4c3-895d940843fb)
+![Apotech-Master import](https://github.com/agungpdev/pos-apotek/assets/50897936/8ed2baed-59ca-4951-b572-c624dec7ddd9)
 
 <h4>Fitur</h4>
 
