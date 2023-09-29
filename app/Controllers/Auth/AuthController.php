@@ -18,12 +18,12 @@ class AuthController extends BaseController
 
   public function index(): string
   {
-    $data = ["title" => "POS | APP"];
+    $data = ["title" => "Apotech | APP"];
     return view('auth/login', $data);
   }
   public function signup()
   {
-    $data = ["title" => "CRUD | APP"];
+    $data = ["title" => "Apotech | Register"];
     return view('auth/register', $data);
   }
 

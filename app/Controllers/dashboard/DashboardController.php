@@ -12,17 +12,19 @@ class DashboardController extends BaseController
   protected $obat;
   protected $supplier;
   protected $customer;
+  protected $validation;
 
   public function __construct()
   {
     $this->obat = new DrugsModel();
     $this->supplier = new SuppliersModel();
     $this->customer = new CustomersModel();
+    $this->validation = \Config\Services::validation();
   }
 
   public function index(): mixed
   {
-    $data = ["title" => "POS | APP"];
+    $data = ["title" => "Apotech | Dashboard"];
     return view('dashboard/v-dashboard', $data);
   }
   public function import_obat()
@@ -32,7 +34,6 @@ class DashboardController extends BaseController
       exit();
     }
 
-    $validation = \Config\Services::validation();
     $validate = $this->validate([
       'import_obat' => [
         'rules' => 'uploaded[import_obat]|ext_in[import_obat,xls,xlsx]',
@@ -109,7 +110,6 @@ class DashboardController extends BaseController
       exit();
     }
 
-    $validation = \Config\Services::validation();
     $validate = $this->validate([
       'import_supplier' => [
         'rules' => 'uploaded[import_supplier]|ext_in[import_supplier,xls,xlsx]',
@@ -188,7 +188,6 @@ class DashboardController extends BaseController
       exit();
     }
 
-    $validation = \Config\Services::validation();
     $validate = $this->validate([
       'import_customer' => [
         'rules' => 'uploaded[import_customer]|ext_in[import_customer,xls,xlsx]',

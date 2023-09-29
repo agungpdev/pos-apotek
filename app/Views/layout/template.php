@@ -70,16 +70,15 @@
             console.log(response);
             if (response.error) {
               const data = response.error
+              $('.txt_csrf').val(response.token);
               if (data.error_file_obat) {
-                $('.txt_csrf_obat').val(response.token);
                 $('#import_obat').addClass('is-invalid');
                 $('.error_file_obat').html(data.error_file_obat)
               } else {
-                $('.txt_csrf_obat').val()
                 $('#import_obat').removeClass('is-invalid');
               }
             } else {
-              $('.txt_csrf_obat').val(response.token);
+              $('.txt_csrf').val(response.token);
               $('#import_obat').removeClass('is-invalid');
               Toast.fire({
                 icon: response.status,
@@ -119,16 +118,15 @@
             console.log(response);
             if (response.error) {
               const data = response.error
+              $('.txt_csrf').val(response.token);
               if (data.error_file_supplier) {
-                $('.txt_csrf_supplier').val(response.token);
                 $('#import_supplier').addClass('is-invalid');
                 $('.error_file_supplier').html(data.error_file_supplier)
               } else {
-                $('.txt_csrf_supplier').val()
                 $('#import_supplier').removeClass('is-invalid');
               }
             } else {
-              $('.txt_csrf_supplier').val(response.token);
+              $('.txt_csrf').val(response.token);
               $('#import_supplier').removeClass('is-invalid');
               Toast.fire({
                 icon: response.status,
@@ -168,16 +166,15 @@
             console.log(response);
             if (response.error) {
               const data = response.error
+              $('.txt_csrf').val(response.token);
               if (data.error_file_customer) {
-                $('.txt_csrf_customer').val(response.token);
                 $('#import_customer').addClass('is-invalid');
                 $('.error_file_customer').html(data.error_file_customer)
               } else {
-                $('.txt_csrf_customer').val()
                 $('#import_customer').removeClass('is-invalid');
               }
             } else {
-              $('.txt_csrf_customer').val(response.token);
+              $('.txt_csrf').val(response.token);
               $('#import_customer').removeClass('is-invalid');
               Toast.fire({
                 icon: response.status,

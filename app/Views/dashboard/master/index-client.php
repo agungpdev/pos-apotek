@@ -270,12 +270,6 @@
             Cancel
           </a>
           <button type="submit" class="btn btn-primary btn-save ms-auto">
-            <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-              <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-              <path d="M12 5l0 14"></path>
-              <path d="M5 12l14 0"></path>
-            </svg>
             Save
           </button>
         </div>
@@ -382,12 +376,9 @@
                 <label class="form-label required">Nama Bank</label>
                 <select class="form-select" id="bank" name="bank">
                   <option value="" selected="">Choose</option>
-                  <option value="BCA">BCA</option>
-                  <option value="BNI">BNI</option>
-                  <option value="BRI">BRI</option>
-                  <option value="Mandiri">Mandiri</option>
-                  <option value="CIMB Niaga">CIMB Niaga</option>
-
+                  <?php foreach ($bank as $b) : ?>
+                    <option value="<?= $b ?>"><?= $b ?></option>
+                  <?php endforeach ?>
                 </select>
                 <div class="invalid-feedback error_bank"></div>
               </div>
@@ -435,12 +426,6 @@
             Cancel
           </a>
           <button type="submit" class="btn btn-primary btn-save ms-auto">
-            <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-              <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-              <path d="M12 5l0 14"></path>
-              <path d="M5 12l14 0"></path>
-            </svg>
             Save
           </button>
         </div>
@@ -494,12 +479,9 @@
                 <label class="form-label required">Nama Bank</label>
                 <select class="form-select" id="bank_sup" name="bank">
                   <option value="" selected="">Choose</option>
-                  <option value="BCA">BCA</option>
-                  <option value="BNI">BNI</option>
-                  <option value="BRI">BRI</option>
-                  <option value="Mandiri">Mandiri</option>
-                  <option value="CIMB Niaga">CIMB Niaga</option>
-
+                  <?php foreach ($bank as $b) : ?>
+                    <option value="<?= $b ?>"><?= $b ?></option>
+                  <?php endforeach ?>
                 </select>
                 <div class="invalid-feedback error_bank"></div>
               </div>
@@ -680,8 +662,8 @@
           id: ID,
         },
         success: function(response) {
-          console.log(response);
           var res = response.result
+          console.log($('#bank_sup').val(res.account_name));
           if (response.success) {
             $('.txt_csrf_supplier_update').val(response.token)
             $('#id_sup').val(res.id)

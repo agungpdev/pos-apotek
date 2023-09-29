@@ -16,7 +16,7 @@
             <div class="invalid-feedback error_name"></div>
           </div>
           <div class="mb-3">
-            <label class="form-label">email</label>
+            <label class="form-label">Email</label>
             <input type="email" id="email" name="email" class="form-control" placeholder="your@mail.com">
             <div class="invalid-feedback error_email"></div>
           </div>
@@ -31,7 +31,7 @@
         </div>
       </form>
       <div class="text-center text-muted mt-3">
-        Already have account? <a href="<?= site_url() ?>" tabindex="-1">Sign in</a>
+        Already have an account? <a href="<?= site_url() ?>" tabindex="-1">Sign in</a>
       </div>
     </div>
   </div>

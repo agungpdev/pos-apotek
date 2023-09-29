@@ -37,7 +37,7 @@ class LocationController extends BaseController
         $validate = $this->validate([
             'location' => [
                 'rules' => 'required|min_length[3]',
-                'label' => 'satuan',
+                'label' => 'lokasi',
                 'errors' => [
                     'required' => '{field} tidak boleh kosong',
                     'min_length' => '{field} minimal 3 karakater'

@@ -11,6 +11,7 @@ class MasterController extends BaseController
         $data = [
             "title" => "Apotech | Master",
             "param" => $param,
+            "bank" => ['BCA', 'BNI', 'BRI', 'Mandiri', 'CIMB Niaga']
         ];
         if ($param === 'category' || $param === 'satuan' || $param === 'location') {
             return view('dashboard/master/index-units', $data);

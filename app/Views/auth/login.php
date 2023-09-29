@@ -1,6 +1,6 @@
 <?= $this->extend('auth/layout_auth') ?>
 <?= $this->section('content') ?>
-<div class=" d-flex flex-column bg-white">
+<div class="d-flex flex-column bg-white login">
   <div class="row g-0 flex-fill">
     <div class="col-12 col-lg-6 col-xl-4 border-top-wide border-primary d-flex flex-column justify-content-center">
       <div class="container container-tight my-5 px-lg-5">
@@ -93,7 +93,23 @@
             $('#alert').removeClass('d-none')
             $('#alert').html(response.message)
           } else {
-            window.open(response.url, '_self')
+            var loaderPage = `<div class="container container-slim py-4">
+                              <div class="text-center">
+                                <div class="mb-3">
+                                  <a href="." class="navbar-brand navbar-brand-autodark"><img src="<?= site_url('assets') ?>/img/brand.svg" height="36" alt="logo-apotech"></a>
+                                </div>
+                                <div class="text-muted mb-3">Preparing application</div>
+                                <div class="progress progress-sm">
+                                  <div class="progress-bar progress-bar-indeterminate"></div>
+                                </div>
+                              </div>
+                            </div>`
+            $('.login').addClass('page page-center');
+            $('.login').removeClass('d-flex flex-column bg-white');
+            $('.login').html(loaderPage);
+            setTimeout(function() {
+              window.open(response.url, '_self')
+            }, 2000)
           }
         }
       })
